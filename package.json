@@ -1,0 +1,36 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon --inspect src/index.js",
+    "watch": "node-sass --watch src/recources/scss --output src/public/css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tranvanthinh2509/Nodejs_blog.git"
+  },
+  "keywords": [
+    "f8",
+    "f8-blog",
+    "nodejs",
+    "blog-nodejs"
+  ],
+  "author": "ThinhTran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tranvanthinh2509/Nodejs_blog/issues"
+  },
+  "homepage": "https://github.com/tranvanthinh2509/Nodejs_blog#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "node-sass": "^9.0.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.2"
+  }
+}
