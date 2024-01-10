@@ -1,5 +1,4 @@
-
-class newController{
+class newController {
     // [Get] /news
     index(req, res) {
         res.render('new');
@@ -11,4 +10,4 @@ class newController{
     }
 }
 
-module.exports = new newController;
+module.exports = new newController();
