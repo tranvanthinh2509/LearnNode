@@ -5,8 +5,8 @@ class siteController {
     }
 
     // show [GET] /search
-             show(req, res) {
-        res.render('search');
+               show(req, res) {
+          res.render('search');
     }
 }
 
