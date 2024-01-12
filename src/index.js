@@ -14,12 +14,12 @@ app.use(morgan('combined'));
 
 app.engine('.hbs', handlebars({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname, 'recources/views'));
+app.set('views', path.join(__dirname, 'recources', 'views'));
 
 db.Connect();
 
 route(app);
 
 app.listen(port, () => {
-    console.log(`Example app listening on port http://localhost:${port}`);
+    console.log(`App on port http://localhost:${port}`);
 });

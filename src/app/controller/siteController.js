@@ -1,21 +1,19 @@
-const Course = require('../model/Course')
+const Course = require('../model/Course');
+const Mongoose = require('../../util/mongoose');
 
 class siteController {
     // [Get] /home
-    async index(req, res) {
+    index(req, res, next) {
+        Course.find({})
+            .then(courses => {
+                res.render('home', {
+                    courses: Mongoose.multiMongooseToObject(courses),
+                })
+            });
 
-        try {
-            const courses = await Course.find({});
-            res.json(courses);
-        } catch (error) {
-            res.status(400).json({ err: "ERROR!!!" });
-        }
-
-
-        // res.render('home');
     }
 
-    // show [GET] /search
+    // [GET] /search
     show(req, res) {
         res.render('search');
     }
