@@ -18,6 +18,13 @@ class courseController {
             .then(() => res.redirect('/me/stored/courses'))
     }
 
+    // [DELETE] /courses/:id
+    destroy(req, res) {
+        Course.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+    }
+
+
     // [GET] /courses/:slug
     show(req, res) {
         Course.findOne({ slug: req.params.slug})

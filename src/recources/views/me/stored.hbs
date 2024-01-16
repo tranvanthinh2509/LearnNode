@@ -20,10 +20,50 @@
                 <a class="btn btn-link" href="/courses/{{this._id}}/edit">Sửa</a>
             </td>
             <td>
-                <a class="btn btn-link" href="#">Xóa</a>
+                <a class="btn btn-link" href="#" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#delete-courses-modal">Xóa</a>
             </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
 </div>
+
+<div class="modal fade" id="delete-courses-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Course</h5>
+      </div>
+      <div class="modal-body">
+        <p>Do you delete this course sure ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btn-delete-course" class="btn btn-danger">Delete</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- DeleteFormHidden --}}
+<form name="delete-course-form" method="POST"></form>
+
+<script>
+    var CourseId;
+    var deleteForm = document.forms['delete-course-form'];
+    const btnDeleteCourse = document.getElementById('btn-delete-course');
+    
+    //When click get ID
+    const deleteCoursesModal = document.getElementById('delete-courses-modal')
+    if (deleteCoursesModal) {
+    deleteCoursesModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        CourseId = button.getAttribute('data-id')
+    })
+    }
+    
+    btnDeleteCourse.onclick = function () {
+        deleteForm.action = '/courses/' + CourseId + '?_method=DELETE';
+        deleteForm.submit();
+    }
+</script>
