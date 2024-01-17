@@ -7,4 +7,8 @@ router.get(
     meController.stored,
 );
 
+router.get(
+    '/trash/courses',
+    meController.trash,
+);
 module.exports = router;

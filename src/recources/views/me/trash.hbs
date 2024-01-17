@@ -1,8 +1,5 @@
 <div class="mt-4">
-    <h3>My courses</h3>
-    {{#if deleteCount}}
-    <a href="/me/trash/courses">Thùng rác ({{deleteCount}})</a>
-    {{/if}}
+    <h3>Trash</h3>
     <table class="table mt-4">
         <thead >
             <tr>
@@ -20,17 +17,17 @@
             <td>{{this.description}}</td>
             <td>{{this.createdAt}}</td>
             <td>
-                <a class="btn btn-link" href="/courses/{{this._id}}/edit">Sửa</a>
+                <a class="btn btn-link btn-restore" data-id="{{this._id}}" href="">Restore</a>
             </td>
             <td>
-                <a class="btn btn-link" href="#" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#delete-courses-modal">Xóa</a>
+                <a class="btn btn-link" href="" data-id="{{this._id}}" data-bs-toggle="modal" data-bs-target="#delete-courses-modal">Xóa vĩnh viễn</a>
             </td>
             </tr>
             {{else}}
             <tr>
               <td colspan="5" class="text-center">
-                Bạn không có khóa học nào?
-                <a href="/courses/create" class="">Đăng kí khóa học.</a>  
+                Thùng rác trống.
+                <a href="/me/stored/courses" class="">Danh sách khóa học.</a>  
               </td>
             </tr>
             {{/each}}
@@ -55,13 +52,15 @@
   </div>
 </div>
 
-{{!-- DeleteFormHidden --}}
-<form name="delete-course-form" method="POST"></form>
 
+<form name="delete-course-form" method="POST"></form>
+<form name="restore-course-form" method="POST"></form>
 <script>
     var CourseId;
     var deleteForm = document.forms['delete-course-form'];
-    const btnDeleteCourse = document.getElementById('btn-delete-course');
+    var restoreForm = document.forms['restore-course-form'];
+    var btnDeleteCourse = document.getElementById('btn-delete-course');
+    var btnRestore = document.querySelectorAll('.btn-restore');
     
     //When click get ID
     const deleteCoursesModal = document.getElementById('delete-courses-modal')
@@ -73,7 +72,17 @@
     }
     
     btnDeleteCourse.onclick = function () {
-        deleteForm.action = '/courses/' + CourseId + '?_method=DELETE';
+        deleteForm.action = '/courses/' + CourseId + '/force?_method=DELETE';
         deleteForm.submit();
     }
+
+    btnRestore.forEach(function (btnRes) {
+      btnRes.addEventListener('click', function (e) {
+        e.preventDefault();
+        var CourseId = e.target.dataset.id;
+        restoreForm.action = '/courses/' + CourseId + '/restore?_method=PATCH';
+        restoreForm.submit();
+      })
+    }
+    )
 </script>
