@@ -61,6 +61,19 @@ class courseController {
         course.save()
             .then(() => res.redirect('/me/stored/courses'));
     }
+
+    // [POST] /courses/handle-action-form
+    actionForm(req, res) {
+        switch(req.body.action) {
+            case 'delete': 
+                Course.delete({ _id: { $in: req.body.courseIds} })
+                    .then(() => res.redirect('back'))
+                break;
+            default : res.json('No action')
+        }
+        
+
+    }
 }
 
 module.exports = new courseController();

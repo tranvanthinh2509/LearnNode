@@ -15,6 +15,10 @@ router.get(
     '/:id/edit',
     courseController.edit,
 );
+router.post(
+    '/handle-action-form',
+    courseController.actionForm,
+);
 router.put(
     '/:id',
     courseController.update,

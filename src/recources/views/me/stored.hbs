@@ -1,11 +1,26 @@
-<div class="mt-4">
+<form class="mt-4" name="container-Form" method="POST" action="/courses/handle-action-form">
     <h3>My courses</h3>
+    <div class="mt-4 d-flex align-items-center">
+      <div class="form-check">
+      <input class="form-check-input" id="checkAll" type="checkbox" value="" >
+      <label class="form-check-label">
+        Chọn tất cả
+      </label>
+      </div>
+      <select class="form-select form-select-lg checkbox-select-all-option" aria-label="Default select example" name="action" required>
+        <option value="">---Hành động---</option>
+        <option value="delete">Xóa</option>
+      </select>
+      <button class="btn btn-primary btn-sm disabled btn-check-all-submit">Thực hiện</button>
+    </div>
+    
     {{#if deleteCount}}
     <a href="/me/trash/courses">Thùng rác ({{deleteCount}})</a>
     {{/if}}
     <table class="table mt-4">
         <thead >
             <tr>
+            <th scope="col">#</th>
             <th scope="col">Id</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
@@ -14,7 +29,13 @@
         </thead>
         <tbody>
             {{#each courses}}
+            
             <tr>
+              <td>
+                <div class="form-check">
+                  <input class="form-check-input course-item-check" type="checkbox" value="{{this._id}}" name="courseIds[]">
+                </div>
+              </td>
             <th scope="row">{{sum @index 1}}</th>
             <td>{{this.name}}</td>
             <td>{{this.description}}</td>
@@ -36,7 +57,8 @@
             {{/each}}
         </tbody>
     </table>
-</div>
+</form>
+
 
 <div class="modal fade" id="delete-courses-modal" tabindex="-1">
   <div class="modal-dialog">
@@ -61,7 +83,12 @@
 <script>
     var CourseId;
     var deleteForm = document.forms['delete-course-form'];
+    var containerForm = document.forms['container-Form'];
+    
     const btnDeleteCourse = document.getElementById('btn-delete-course');
+    var checkAll = document.getElementById('checkAll');
+    var courseItemCheck = document.querySelectorAll('.course-item-check')
+    var btnCheckAllSubmit = document.querySelector('.btn-check-all-submit')
     
     //When click get ID
     const deleteCoursesModal = document.getElementById('delete-courses-modal')
@@ -76,4 +103,57 @@
         deleteForm.action = '/courses/' + CourseId + '?_method=DELETE';
         deleteForm.submit();
     }
+
+    
+
+    //Checkbox all changed
+    checkAll.onchange = function () {
+      var isCheckAll = this.checked 
+      if(isCheckAll) {
+        for(var courseitemcheck of courseItemCheck) {
+          courseitemcheck.checked = isCheckAll
+        }
+      } else {
+        for(var courseitemcheck of courseItemCheck) {
+          courseitemcheck.checked = isCheckAll
+        }
+      }
+      showBtnSubmit();
+    }
+
+    var i = 0;
+    //Course item checked is checkAll changed
+    for(var courseitemcheck of courseItemCheck) {
+          courseitemcheck.onchange = function () {
+            if(this.checked) i = i + 1;
+            else i = i - 1;
+            if(i === courseItemCheck.length) {
+              checkAll.checked = true;
+            } else {
+              checkAll.checked = false;
+            }
+            showBtnSubmit();
+          }
+          
+    }
+
+    //Show btn thực hiện
+    function showBtnSubmit() {
+        var countChecked = i;
+        if(countChecked != 0 || checkAll.checked) {
+          btnCheckAllSubmit.classList.remove('disabled');
+        } else {
+          btnCheckAllSubmit.classList.add('disabled');
+        }
+    }
+    
+    //Click submit
+    btnCheckAllSubmit.onclick = function (e) {
+      e.preventDefault();
+      var isSubmitable = !btnCheckAllSubmit.classList.contains('disabled');
+      if(isSubmitable) {
+        containerForm.submit();
+      }
+    }
+    
 </script>
