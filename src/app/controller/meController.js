@@ -4,8 +4,14 @@ const Mongoose = require('../../util/mongoose');
 class meController {
     // [GET] /stored/courses
     stored(req, res) {
-
-        Promise.all([Course.find({}), Course.countDocumentsWithDeleted({ deleted: true })])
+        let courseQuerry = Course.find({});
+        
+        if (req.query.hasOwnProperty('_sort')) {
+            courseQuerry = courseQuerry.sort({
+                [req.query.column]: req.query.type
+            })
+        }
+        Promise.all([courseQuerry, Course.countDocumentsWithDeleted({ deleted: true })])
             .then(([courses, deleteCount]) => 
                     res.render('me/stored', {
                         deleteCount,

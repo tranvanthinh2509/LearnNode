@@ -22,8 +22,12 @@
             <tr>
             <th scope="col">#</th>
             <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
+            <th scope="col">
+                Name
+                {{{sortable 'name' _sort}}}
+                
+            </th>
+            <th scope="col">Description {{{sortable 'level' _sort}}}</th>
             <th scope="col" colspan="3">CreatedAt</th>
             </tr>
         </thead>
